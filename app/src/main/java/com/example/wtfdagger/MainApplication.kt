@@ -6,9 +6,12 @@ import dagger.android.DaggerApplication
 
 class MainApplication : DaggerApplication(), HasFeatureComponent {
 
+    lateinit var component: MainComponent
+
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-        return DaggerMainComponent.factory().create(this)
+        component = DaggerMainComponent.factory().create(this)
+        return component
     }
 
-    override fun featureComponent(): FeatureComponent.Factory = (applicationInjector() as MainComponent).featureComponent()
+    override fun featureComponent(): FeatureComponent.Factory = component.featureComponent()
 }
